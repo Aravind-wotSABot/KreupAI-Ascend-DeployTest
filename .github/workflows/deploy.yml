@@ -3,24 +3,31 @@ name: Deploy to Elastic Beanstalk
 on:
   push:
     branches:
-      - develop-v1.0 # or your deployment branch
+      - main  # or your deployment branch
 
 jobs:
   deploy:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout code
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Step 2: Set up Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "22" # Specify your Node.js version
+          node-version: '20'  # Update to your Node.js version
 
-      # Step 3: Configure AWS credentials
+      - name: Install dependencies
+        run: npm run install-all
+
+      - name: Build application
+        run: npm run build
+
+      - name: Zip artifact
+        run: |
+          zip -r application.zip . -x '*.git*' -x 'frontend/node_modules/*' -x 'backend/node_modules/*' -x 'application.zip'
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
@@ -28,26 +35,6 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      # Step 4: Install dependencies
-      - name: Install dependencies
-        run: npm run install-all
-
-      # Step 5: Build the web app
-      - name: Build web
-        run: npm run build
-
-      # Step 6: Install 7-Zip (for zipping with exclusion)
-      - name: Install 7-Zip
-        run: choco install 7zip -y
-        shell: cmd
-
-      # Step 7: Zip artifact using 7-Zip and exclude unnecessary files
-      - name: Zip artifact
-        run: |
-          7z a application.zip -xr!.git* -xr!web/node_modules* -xr!backend/node_modules* -xr!application.zip
-        shell: pwsh
-
-      # Step 8: Deploy to Elastic Beanstalk
       - name: Deploy to Elastic Beanstalk
         uses: einaregilsson/beanstalk-deploy@v20
         with:
