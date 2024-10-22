@@ -3,7 +3,7 @@ name: Deploy to Elastic Beanstalk
 on:
   push:
     branches:
-      - develop-v1.0  # or your deployment branch
+      - develop-v1.0 # or your deployment branch
 
 jobs:
   deploy:
@@ -18,7 +18,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '22'  # Specify your Node.js version
+          node-version: "22" # Specify your Node.js version
 
       # Step 3: Configure AWS credentials
       - name: Configure AWS credentials
