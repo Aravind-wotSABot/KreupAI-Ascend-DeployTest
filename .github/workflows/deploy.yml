@@ -1,0 +1,46 @@
+name: Deploy to Elastic Beanstalk
+
+on:
+  push:
+    branches:
+      - develop-v1.0  # or your deployment branch
+
+jobs:
+  deploy:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'  # Specify your Node.js version
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Install dependencies
+        run: npm run install-all
+
+      - name: Build web
+        run: npm run build
+
+      - name: Zip artifact
+        run: |
+          powershell Compress-Archive -Path .\* -DestinationPath application.zip -Force -Exclude .\*.git\*,.\*web\node_modules\*,.\*backend\node_modules\*,.\*application.zip
+        shell: pwsh
+
+      - name: Deploy to Elastic Beanstalk
+        uses: einaregilsson/beanstalk-deploy@v20
+        with:
+          aws_region: ${{ secrets.AWS_REGION }}
+          application_name: ${{ secrets.AWS_EB_APPLICATION_NAME }}
+          environment_name: ${{ secrets.AWS_EB_ENVIRONMENT_NAME }}
+          version_label: v-${{ github.sha }}
+          deployment_package: application.zip
