@@ -19,14 +19,16 @@ jobs:
           node-version: '20'  # Update to your Node.js version
 
       - name: Install dependencies
-        run: npm run install-all
+        run: |
+          set -e
+          npm ci  # Use npm ci for faster installs if you have package-lock.json
 
       - name: Build application
         run: npm run build
 
       - name: Zip artifact
         run: |
-          zip -r application.zip . -x '*.git*' -x 'frontend/node_modules/*' -x 'backend/node_modules/*' -x 'application.zip'
+          zip -r application.zip . -x '*.git*' -x 'node_modules/*' -x 'web/node_modules/*' -x 'application.zip'
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
