@@ -3,7 +3,7 @@ name: Deploy to Elastic Beanstalk
 on:
   push:
     branches:
-      - main  # or your deployment branch
+      - develop-v1.0  # or your deployment branch
 
 jobs:
   deploy:
