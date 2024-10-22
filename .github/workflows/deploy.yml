@@ -47,3 +47,4 @@ jobs:
           environment_name: ${{ secrets.AWS_EB_ENVIRONMENT_NAME }}
           version_label: v-${{ github.sha }}
           deployment_package: application.zip
+          use_existing_version_if_available: true
