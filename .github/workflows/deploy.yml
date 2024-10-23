@@ -1,50 +1,40 @@
-name: Deploy to Elastic Beanstalk
+name: Deploy to AWS EC2
 
 on:
   push:
     branches:
-      - develop-v1.0  # or your deployment branch
+      - develop-v1.0
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20'  # Update to your Node.js version
+    - name: Set up Docker
+      uses: docker/setup-buildx-action@v1
 
-      - name: Install dependencies
-        run: |
-          set -e
-          npm ci  # Use npm ci for faster installs if you have package-lock.json
+    - name: Log in to Docker Hub
+      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-      - name: Build application
-        run: npm run build
+    - name: Build backend Docker image
+      run: docker build -t <your-dockerhub-username>/backend ./backend
 
-      - name: Zip artifact
-        run: |
-          zip -r application.zip . -x '*.git*' -x 'node_modules/*' -x 'web/node_modules/*' -x 'application.zip'
+    - name: Build frontend Docker image
+      run: docker build -t <your-dockerhub-username>/frontend ./frontend
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+    - name: Push backend image
+      run: docker push <your-dockerhub-username>/backend
 
-      - name: Deploy to Elastic Beanstalk
-        uses: einaregilsson/beanstalk-deploy@v20
-        with:
-          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          region: ${{ secrets.AWS_REGION }}
-          application_name: ${{ secrets.AWS_EB_APPLICATION_NAME }}
-          environment_name: ${{ secrets.AWS_EB_ENVIRONMENT_NAME }}
-          version_label: v-${{ github.sha }}
-          deployment_package: application.zip
-          use_existing_version_if_available: true
+    - name: Push frontend image
+      run: docker push <your-dockerhub-username>/frontend
+
+    - name: Deploy to EC2 via SSH
+      run: |
+        ssh -i your-ssh-key.pem ubuntu@<your-ec2-ip> << 'EOF'
+        docker pull <your-dockerhub-username>/backend
+        docker pull <your-dockerhub-username>/frontend
+        docker-compose -f /path/to/docker-compose.yml up -d
+        EOF
