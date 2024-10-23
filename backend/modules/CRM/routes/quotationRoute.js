@@ -5,7 +5,7 @@ import {
   getQuotationById,
   getQuotations,
   updateQuotation,
-} from "../controllers/QuotationController.js";
+} from "../controllers/quotationController.js";
 import cookieAuthMiddleware from "../../../middleware/cookieAuthMiddleware.js";
 import {
   validateCreateQuotation,

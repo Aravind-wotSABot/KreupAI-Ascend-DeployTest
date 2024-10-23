@@ -1,17 +1,20 @@
-#Sample Dockerfile for NodeJS Apps
+# Use an official Node.js image from Docker Hub
+FROM node:16-alpine
 
-FROM node:21
+# Set working directory in the container
+WORKDIR /usr/src/app
 
-ENV NODE_ENV=production
+# Copy package.json and package-lock.json for dependency installation
+COPY package*.json ./
 
-WORKDIR /app
+# Install dependencies
+RUN npm install
 
-COPY ["package.json", "package-lock.json*", "./"]
-
-RUN npm install --production
-
+# Copy the rest of the application code
 COPY . .
 
+# Expose the port the app will run on (5002)
 EXPOSE 5002
 
-CMD [ "node", "index.js" ]
+# Command to run the app
+CMD ["npm", "start"]

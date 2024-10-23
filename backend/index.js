@@ -95,7 +95,7 @@ const _dirname=path.dirname("");
 const buildpath=path.join(_dirname,"../web/dist");
 app.use(express.static(buildpath));
 app.use(cookieParser());
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+app.use(cors({ origin: "http://localhost", credentials: true }));
 
 // PMT Routes
 app.use("/api/epics", epicRoutes);
