@@ -1,6 +1,5 @@
 import { connectDB } from "./config/db.js";
 import { PORT } from "./config/config.js";
-import { fileURLToPath } from 'url';
 
 import {
   express,
@@ -90,19 +89,13 @@ import {
 } from "./imports.js";
 
 const app = express();
-const __filename = fileURLToPath(import.meta.url); // get the resolved path to the file
-const __dirname = path.dirname(__filename); // get the name of the directory
 // Middleware
 app.use(express.json());
-// Serve static files from the React app
-app.use(express.static(path.join(__dirname, 'web', 'build')));
+const _dirname=path.dirname("");
+const buildpath=path.join(_dirname,"../web/dist");
+app.use(express.static(buildpath));
 app.use(cookieParser());
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
-
-// The "catchall" handler: for any request that doesn't match, send back React's index.html.
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'web', 'build', 'index.html'));
-});
 
 // PMT Routes
 app.use("/api/epics", epicRoutes);

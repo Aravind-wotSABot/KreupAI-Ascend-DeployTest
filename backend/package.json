@@ -1,17 +1,15 @@
 {
-  "name": "kreupai-ascend",
+  "name": "agile-back-end",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node backend/index.js",
-    "build": "npm install --prefix web && npm run build --prefix web",
-    "install-all": "npm install && npm install --prefix backend && npm install --prefix web"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "description": "",
   "dependencies": {
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
