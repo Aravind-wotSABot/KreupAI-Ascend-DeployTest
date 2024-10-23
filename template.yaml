@@ -1,0 +1,28 @@
+Resources:
+  MyElasticBeanstalkApp:
+    Type: "AWS::ElasticBeanstalk::Application"
+    Properties:
+      ApplicationName: "mern-crm-app-v2"
+  
+  MyElasticBeanstalkEnv:
+    Type: "AWS::ElasticBeanstalk::Environment"
+    Properties:
+      EnvironmentName: "Mern-crm-app-env-v2"
+      ApplicationName: !Ref MyElasticBeanstalkApp
+      SolutionStackName: "64bit Amazon Linux 2023 v6.2.2 running Node.js 20"
+      OptionSettings:
+        - Namespace: "aws:autoscaling:asg"
+          OptionName: "MinSize"
+          Value: "1"
+        - Namespace: "aws:autoscaling:asg"
+          OptionName: "MaxSize"
+          Value: "4"
+        - Namespace: "aws:elasticbeanstalk:environment"
+          OptionName: "EnvironmentType"
+          Value: "SingleInstance"
+        - Namespace: "aws:elasticbeanstalk:environment"
+          OptionName: "ServiceRole"
+          Value: "aws-elasticbeanstalk-service-role"
+        - Namespace: "aws:autoscaling:launchtemplate"
+          OptionName: "LaunchTemplateName"
+          Value: "MyTemplate"
