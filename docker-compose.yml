@@ -1,3 +1,4 @@
+version: "3.9"
 services:
   # Backend service
   backend:
@@ -11,7 +12,11 @@ services:
 
   # Frontend service
   frontend:
-    image: aravindwotsabot/web:${FRONTEND_TAG}
+    build:
+      context: ./web  # Specify the directory where your frontend Dockerfile is
+      dockerfile: Dockerfile  # Use the Dockerfile located in the 'web' directory
+      args:
+        VITE_API_BASE_URL: "http://65.2.37.201:5002"  # Pass the API URL
     ports:
       - "80:80" # Map frontend (NGINX) to port 80 for production
 
