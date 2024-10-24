@@ -44,13 +44,13 @@ jobs:
         key: ${{ secrets.EC2_SSH_KEY }}
         # Pass the GITHUB_SHA as BACKEND_TAG and FRONTEND_TAG
         envs: |
-          BACKEND_TAG=${{ github.sha }}
-          FRONTEND_TAG=${{ github.sha }}
+          BACKEND_TAG: '${{ github.sha }}'
+          FRONTEND_TAG: '${{ github.sha }}'
         script: |
           cd /home/ubuntu/crm/
-          # Export the environment variables
-          export BACKEND_TAG=$BACKEND_TAG
-          export FRONTEND_TAG=$FRONTEND_TAG
+          # Debugging: Print the environment variables
+          echo "BACKEND_TAG is set to: $BACKEND_TAG"
+          echo "FRONTEND_TAG is set to: $FRONTEND_TAG"
           # Pull the latest images
           docker-compose pull
           # Start the services
