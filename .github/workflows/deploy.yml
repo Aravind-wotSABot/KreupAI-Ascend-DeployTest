@@ -23,18 +23,23 @@ jobs:
       run: docker build -t aravindwotsabot/backend ./backend
 
     - name: Build frontend Docker image
-      run: docker build -t aravindwotsabot/frontend ./frontend
+      run: docker build -t aravindwotsabot/web ./web
 
     - name: Push backend image
       run: docker push aravindwotsabot/backend
 
     - name: Push frontend image
-      run: docker push aravindwotsabot/frontend
+      run: docker push aravindwotsabot/web
+
+    - name: Create SSH key file
+      run: |
+        echo "${{ secrets.EC2_SSH_KEY }}" > ec2_key.pem
+        chmod 600 ec2_key.pem
 
     - name: Deploy to EC2 via SSH
       run: |
-        ssh -i ${{ secrets.EC2_SSH_KEY }} ubuntu@13.233.67.178 << 'EOF'
+        ssh -o StrictHostKeyChecking=no -i ec2_key.pem ubuntu@15.206.195.78 << 'EOF'
         docker pull aravindwotsabot/backend
-        docker pull aravindwotsabot/frontend
+        docker pull aravindwotsabot/web
         docker-compose -f /path/to/docker-compose.yml up -d
         EOF
