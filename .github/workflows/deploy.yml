@@ -27,14 +27,14 @@ jobs:
       with:
         context: ./backend
         push: true
-        tags: aravindwotsabot/backend:latest
+        tags: aravindwotsabot/backend:${{ github.sha }}
 
     - name: Build and push frontend Docker image
       uses: docker/build-push-action@v4
       with:
         context: ./web
         push: true
-        tags: aravindwotsabot/web:latest
+        tags: aravindwotsabot/web:${{ github.sha }}
 
     - name: Deploy to EC2 via SSH
       uses: appleboy/ssh-action@v0.1.10
@@ -42,9 +42,7 @@ jobs:
         host: 15.206.195.78
         username: ubuntu
         key: ${{ secrets.EC2_SSH_KEY }}
-        debug: true
         script: |
           docker pull aravindwotsabot/backend:${{ github.sha }}
           docker pull aravindwotsabot/web:${{ github.sha }}
           docker-compose -f /home/ubuntu/crm/docker-compose.yml up -d
-
