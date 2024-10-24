@@ -42,7 +42,7 @@ import {
   quotationRoute,
   clientPriceBookRoute,
   productRoute,
-  salesOrderRoute,
+  // salesOrderRoute,
   salesOrderLineRoute,
   quotationLineRoute,
   productPricebookRoute,
@@ -136,7 +136,7 @@ app.use("/api", opportunityRoute);
 app.use("/api", quotationRoute);
 app.use("/api", clientPriceBookRoute);
 app.use("/api", productRoute);
-app.use("/api", salesOrderRoute);
+// app.use("/api", salesOrderRoute);
 app.use("/api", salesOrderLineRoute);
 app.use("/api", quotationLineRoute);
 app.use("/api", productPricebookRoute);

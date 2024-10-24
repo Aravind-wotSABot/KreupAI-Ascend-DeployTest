@@ -44,7 +44,7 @@ import opportunityRoute from "./modules/CRM/routes/opportunityRoute.js"
 import quotationRoute from "./modules/CRM/routes/quotationRoute.js"
 import clientPriceBookRoute from "./modules/CRM/routes/clientPriceBookRoute.js"
 import productRoute from "./modules/CRM/routes/productRoute.js"
-import salesOrderRoute from "./modules/CRM/routes/salesOrderRoute.js"
+// import salesOrderRoute from "./modules/CRM/routes/salesOrderRoute.js"
 import salesOrderLineRoute from "./modules/CRM/routes/salesOrderLineRoute.js"
 import quotationLineRoute from "./modules/CRM/routes/quotationLineRoute.js"
 import productPricebookRoute from "./modules/CRM/routes/productPricebookRoute.js"
@@ -135,7 +135,7 @@ export {
   quotationRoute,
   clientPriceBookRoute,
   productRoute,
-  salesOrderRoute,
+  // salesOrderRoute,
   salesOrderLineRoute,
   quotationLineRoute,
   productPricebookRoute,
