@@ -41,5 +41,5 @@ jobs:
         ssh -o StrictHostKeyChecking=no -i ec2_key.pem ubuntu@15.206.195.78 << 'EOF'
         docker pull aravindwotsabot/backend
         docker pull aravindwotsabot/web
-        docker-compose -f /path/to/docker-compose.yml up -d
+        docker-compose -f /home/ubuntu/crm/docker-compose.yml up -d
         EOF
