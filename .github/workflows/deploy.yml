@@ -35,6 +35,9 @@ jobs:
         context: ./web
         push: true
         tags: aravindwotsabot/web:${{ github.sha }}
+        build-args: |
+          VITE_API_BASE_URL=http://65.2.37.201:5002
+
 
     - name: Deploy to EC2 via SSH
       uses: appleboy/ssh-action@v0.1.10

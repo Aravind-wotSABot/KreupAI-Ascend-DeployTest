@@ -10,6 +10,12 @@ RUN npm install
 
 # Copy all source files and build the app
 COPY . .
+
+# Build the app with a custom API base URL
+ARG VITE_API_BASE_URL
+ENV VITE_API_BASE_URL=$VITE_API_BASE_URL
+
+
 RUN npm run build
 
 # NGINX stage - Use NGINX to serve the build files
