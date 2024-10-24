@@ -29,7 +29,7 @@ jobs:
         push: true
         tags: aravindwotsabot/backend:${{ github.sha }}
         build-args: |
-          FRONTEND_URL=http://65.2.37.201:80
+          FRONTEND_URL=http://65.2.37.201
 
     - name: Build and push frontend Docker image
       uses: docker/build-push-action@v4
