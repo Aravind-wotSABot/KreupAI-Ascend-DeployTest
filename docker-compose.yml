@@ -1,8 +1,9 @@
-version: "3"
+version: "3.9"
+
 services:
   # Backend service
   backend:
-    build: ./backend
+    image: aravindwotsabot/backend:${BACKEND_TAG}
     ports:
       - "5002:5002" # Expose the backend port
     env_file:
@@ -12,7 +13,7 @@ services:
 
   # Frontend service
   frontend:
-    build: ./web
+    image: aravindwotsabot/web:${FRONTEND_TAG}
     ports:
       - "80:80" # Map frontend (NGINX) to port 80 for production
 
