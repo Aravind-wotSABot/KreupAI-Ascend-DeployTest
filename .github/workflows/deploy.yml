@@ -39,7 +39,7 @@ jobs:
     - name: Deploy to EC2 via SSH
       uses: appleboy/ssh-action@v0.1.10
       with:
-        host: 15.206.195.78
+        host: 65.2.37.201
         username: ubuntu
         key: ${{ secrets.EC2_SSH_KEY }}
         # Pass the GITHUB_SHA as BACKEND_TAG and FRONTEND_TAG
