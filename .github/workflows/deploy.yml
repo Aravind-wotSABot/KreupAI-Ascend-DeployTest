@@ -37,12 +37,14 @@ jobs:
         tags: aravindwotsabot/web:latest
 
     - name: Deploy to EC2 via SSH
-      uses: appleboy/ssh-action@v0.1.1
+      uses: appleboy/ssh-action@v0.1.10
       with:
         host: 15.206.195.78
         username: ubuntu
         key: ${{ secrets.EC2_SSH_KEY }}
+        debug: true
         script: |
-          docker pull aravindwotsabot/backend:latest
-          docker pull aravindwotsabot/web:latest
+          docker pull aravindwotsabot/backend:${{ github.sha }}
+          docker pull aravindwotsabot/web:${{ github.sha }}
           docker-compose -f /home/ubuntu/crm/docker-compose.yml up -d
+
