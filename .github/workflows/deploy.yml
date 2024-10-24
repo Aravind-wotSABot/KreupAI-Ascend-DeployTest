@@ -31,9 +31,14 @@ jobs:
     - name: Push frontend image
       run: docker push aravindwotsabot/web
 
+    - name: Decode SSH Key
+      run: |
+        echo "${{ secrets.EC2_SSH_KEY }}" | base64 --decode > /tmp/ec2_ssh_key
+        chmod 600 /tmp/ec2_ssh_key
+
     - name: Deploy to EC2 via SSH
       run: |
-        ssh -i ${{ secrets.EC2_SSH_KEY }} ubuntu@13.233.67.178 << 'EOF'
+        ssh -i /tmp/ec2_ssh_key ubuntu@13.233.67.178 << 'EOF'
         docker pull aravindwotsabot/backend
         docker pull aravindwotsabot/web
         docker-compose -f /path/to/docker-compose.yml up -d
