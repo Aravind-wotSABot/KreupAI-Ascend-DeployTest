@@ -31,13 +31,15 @@ jobs:
     - name: Push frontend image
       run: docker push aravindwotsabot/web
 
+    - name: Create SSH key file
+      run: |
+        echo "${{ secrets.EC2_SSH_KEY }}" > ec2_key.pem
+        chmod 600 ec2_key.pem
+
     - name: Deploy to EC2 via SSH
-      uses: appleboy/ssh-action@v0.1.7
-      with:
-        host: 15.206.195.78
-        username: ubuntu
-        key: ${{ secrets.EC2_SSH_KEY }}
-        script: |
-          docker pull aravindwotsabot/backend
-          docker pull aravindwotsabot/frontend
-          docker-compose -f /path/to/docker-compose.yml up -d
+      run: |
+        ssh -o StrictHostKeyChecking=no -i ec2_key.pem ubuntu@15.206.195.78 << 'EOF'
+        docker pull aravindwotsabot/backend
+        docker pull aravindwotsabot/frontend
+        docker-compose -f /path/to/docker-compose.yml up -d
+        EOF
