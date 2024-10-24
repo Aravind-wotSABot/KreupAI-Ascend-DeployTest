@@ -20,21 +20,21 @@ jobs:
       run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
     - name: Build backend Docker image
-      run: docker build -t <your-dockerhub-username>/backend ./backend
+      run: docker build -t aravindwotsabot/backend ./backend
 
     - name: Build frontend Docker image
-      run: docker build -t <your-dockerhub-username>/frontend ./frontend
+      run: docker build -t aravindwotsabot/frontend ./frontend
 
     - name: Push backend image
-      run: docker push <your-dockerhub-username>/backend
+      run: docker push aravindwotsabot/backend
 
     - name: Push frontend image
-      run: docker push <your-dockerhub-username>/frontend
+      run: docker push aravindwotsabot/frontend
 
     - name: Deploy to EC2 via SSH
       run: |
-        ssh -i your-ssh-key.pem ubuntu@<your-ec2-ip> << 'EOF'
-        docker pull <your-dockerhub-username>/backend
-        docker pull <your-dockerhub-username>/frontend
+        ssh -i ${{ secrets.EC2_SSH_KEY }} ubuntu@13.233.67.178 << 'EOF'
+        docker pull aravindwotsabot/backend
+        docker pull aravindwotsabot/frontend
         docker-compose -f /path/to/docker-compose.yml up -d
         EOF
