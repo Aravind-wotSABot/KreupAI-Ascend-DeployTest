@@ -16,5 +16,8 @@ COPY . .
 # Expose the port the app will run on (5002)
 EXPOSE 5002
 
+# Set environment variables for production
+ENV NODE_ENV=production
+
 # Command to run the app
 CMD ["npm", "start"]
