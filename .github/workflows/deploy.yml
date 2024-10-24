@@ -33,7 +33,7 @@ jobs:
 
     - name: Deploy to EC2 via SSH
       run: |
-        ssh -i ec2_key.pem ubuntu@13.233.67.178 << 'EOF'
+        ssh -i ${{ secrets.EC2_SSH_KEY }} ubuntu@13.233.67.178 << 'EOF'
         docker pull aravindwotsabot/backend
         docker pull aravindwotsabot/web
         docker-compose -f /path/to/docker-compose.yml up -d
