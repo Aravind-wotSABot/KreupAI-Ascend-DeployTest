@@ -95,7 +95,10 @@ const _dirname=path.dirname("");
 const buildpath=path.join(_dirname,"../web/dist");
 app.use(express.static(buildpath));
 app.use(cookieParser());
-app.use(cors({ credentials: true }));
+
+const allowedOrigin = process.env.FRONTEND_URL || 'http://localhost:5173'; // Default to localhost if not defined
+
+app.use(cors({ origin: allowedOrigin, credentials: true }));
 
 // PMT Routes
 app.use("/api/epics", epicRoutes);

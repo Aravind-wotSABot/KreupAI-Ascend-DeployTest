@@ -5,7 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import { leadColumnDefs } from "../../../../data/LeadsData";
 import LeadsActionBar from "./LeadsActionBar";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "@/api/axiosInstance";
 
 const LeadsTable = () => {
   const [rowData, setRowData] = useState([]);
@@ -14,7 +14,7 @@ const LeadsTable = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const leadsResponse = await axios.get("http://localhost:5002/api/leads");
+        const leadsResponse = await api.get(`/api/leads`);
         setRowData(leadsResponse.data);
       } catch (error) {
         console.error("Error fetching data:", error);

@@ -4,10 +4,10 @@ import { useEffect, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { SelectField, TextInputField } from "../../components/FormFields";
-import axios from "axios";
 import { SignUpSchema } from "./validation/SignUpSchema";
 import { useAuthStore } from "../../../../store/authStore";
 import { Loader } from "lucide-react";
+import api from "@/api/axiosInstance";
 
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -31,8 +31,8 @@ const SignUp = () => {
     const fetchOptions = async () => {
       try {
         const [divisionsResponse, departmentsResponse] = await Promise.all([
-          axios.get("http://localhost:5002/api/divisions"),
-          axios.get("http://localhost:5002/api/departments"),
+          api.get(`/api/divisions`),
+          api.get(`/api/departments`),
         ]);
 
         // Transform the responses to the required format

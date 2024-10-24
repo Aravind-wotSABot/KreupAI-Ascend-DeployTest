@@ -178,7 +178,7 @@ export const forgotPassword = async (req, res) => {
 
     await sendPasswordResetEmail(
       user.email,
-      `${process.env.CLIENT_URL}/wotsabot/reset-password/${resetToken}`
+      `${process.env.FRONTEND_URL}/wotsabot/reset-password/${resetToken}`
     );
 
     res.status(200).json({

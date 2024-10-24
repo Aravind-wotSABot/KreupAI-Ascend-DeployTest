@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { roleColumnDefs } from "@/modules/wotsabot/data/RolesData";
 import Modal from "@/modules/wotsabot/components/ui/Modal";
 import RolesForm from "./RolesForm";
-import axios from "axios";
+import api from "@/api/axiosInstance";
 
 const RolesManagement = () => {
   const [rowData, setRowData] = useState([])
@@ -22,7 +22,7 @@ const RolesManagement = () => {
 
   const getRoles = async () => {
     try {
-      const response = await axios.get("http://localhost:5002/api/roles"); // Update the URL as needed
+      const response = await api.get(`/api/roles`); // Update the URL as needed
       setRowData(response.data);
     } catch (error) {
       console.error("Error fetching roles:", error);
@@ -35,7 +35,7 @@ const RolesManagement = () => {
 
   const handleFormSubmit = async (data) => {
     try {
-      const response = await axios.post("http://localhost:5000/api/roles", data); // Update the URL as needed
+      const response = await api.post("/api/roles", data); // Update the URL as needed
       const newRole = response.data;
       const newData = [...rowData, newRole];
       setRowData(newData);

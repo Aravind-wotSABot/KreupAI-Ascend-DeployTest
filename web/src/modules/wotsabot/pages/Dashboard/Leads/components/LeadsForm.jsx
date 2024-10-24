@@ -11,8 +11,8 @@ import {
   TextAreaField,
   TextInputField,
 } from "../../../../components/FormFields";
-import axios from "axios";
 import { Loader } from "lucide-react";
+import api from "@/api/axiosInstance";
 
 const LeadsForm = ({ closeModal, onSubmit }) => {
   const [isSaving, setIsSaving] = useState(false);
@@ -41,13 +41,13 @@ const LeadsForm = ({ closeModal, onSubmit }) => {
           statesResponse,
           countriesResponse,
         ] = await Promise.all([
-          axios.get("http://localhost:5002/api/auth/users"),
-          axios.get("http://localhost:5002/api/industries"),
-          axios.get("http://localhost:5002/api/lead-sub-sources"),
-          axios.get("http://localhost:5002/api/statuses"),
-          axios.get("http://localhost:5002/api/cities"),
-          axios.get("http://localhost:5002/api/states"),
-          axios.get("http://localhost:5002/api/countries"),
+          api.get(`/api/auth/users`),
+          api.get(`/api/industries`),
+          api.get(`/api/lead-sub-sources`),
+          api.get(`/api/statuses`),
+          api.get(`/api/cities`),
+          api.get(`/api/states`),
+          api.get(`/api/countries`),
         ]);
 
         setUsers(usersResponse.data);
@@ -95,8 +95,8 @@ const LeadsForm = ({ closeModal, onSubmit }) => {
       }
 
       // Send POST request to backend API
-      const response = await axios.post(
-        "http://localhost:5002/api/leads",
+      const response = await api.post(
+        `/api/leads`,
         data
       );
       const newLead = response.data;
