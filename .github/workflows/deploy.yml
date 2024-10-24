@@ -31,14 +31,9 @@ jobs:
     - name: Push frontend image
       run: docker push aravindwotsabot/web
 
-    - name: Add SSH Key
-      run: |
-        echo "${{ secrets.EC2_SSH_KEY }}" > ec2_key.pem
-        chmod 600 ec2_key.pem
-
     - name: Deploy to EC2 via SSH
       run: |
-        ssh -i ec2_key.pem -o StrictHostKeyChecking=no ubuntu@13.233.67.178 << 'EOF'
+        ssh -i ec2_key.pem ubuntu@13.233.67.178 << 'EOF'
         docker pull aravindwotsabot/backend
         docker pull aravindwotsabot/web
         docker-compose -f /path/to/docker-compose.yml up -d
