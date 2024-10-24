@@ -13,6 +13,9 @@ RUN npm install
 # Copy the rest of the application code
 COPY . .
 
+ARG FRONTEND_URL
+ENV FRONTEND_URL=$FRONTEND_URL
+
 # Expose the port the app will run on (5002)
 EXPOSE 5002
 
